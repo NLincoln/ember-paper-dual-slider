@@ -1,6 +1,12 @@
 # ember-paper-dual-slider
 
-This README outlines the details of collaborating on this Ember addon.
+To install:
+
+```sh
+yarn add -D ember-paper-dual-slider
+```
+
+You must have ember-paper already installed.
 
 ## Installation
 
