@@ -8,6 +8,21 @@ yarn add -D ember-paper-dual-slider
 
 You must have ember-paper already installed.
 
+Use it like this:
+
+
+```hbs
+  {{paper-dual-slider
+    from=state.from
+    to=state.to
+    min=1
+    max=300
+    onChange=(action (mut state))
+  }}
+```
+
+All options that `paper-slider` supports are supported, except for `value`, which is replaced by `from` and `to`.
+
 ## Installation
 
 * `git clone <repository-url>` this repository
