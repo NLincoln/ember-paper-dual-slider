@@ -1,0 +1,24 @@
+This is the paper slider:
+
+<div class="p-20">
+  {{paper-dual-slider
+    from=state.from
+    to=state.to
+    min=1
+    max=300
+    onChange=(action (mut state))
+  }}
+</div>
+
+You can use it like this:
+<pre>
+\{{paper-dual-slider
+  from=state.from
+  to=state.to
+  min=1
+  max=300
+  onChange=(action (mut state))
+}}
+</pre>
+
+It's fully DDAU, and supports all options that paper-slider does, swapping out value with from and to.
