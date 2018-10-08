@@ -1,6 +1,6 @@
 {
   "name": "ember-paper-dual-slider",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "The default blueprint for ember-cli addons.",
   "keywords": [
     "ember-addon"
@@ -11,7 +11,7 @@
     "doc": "doc",
     "test": "tests"
   },
-    "repository": {
+  "repository": {
     "type": "git",
     "url": "https://github.com/NLincoln/ember-paper-dual-slider"
   },
