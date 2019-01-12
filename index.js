@@ -1,6 +1,6 @@
 /* eslint-env node */
-'use strict';
+"use strict";
 
 module.exports = {
-  name: 'ember-paper-dual-slider'
+  name: require("./package.json").name
 };
