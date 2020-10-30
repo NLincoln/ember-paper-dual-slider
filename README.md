@@ -1,5 +1,7 @@
 # ember-paper-dual-slider
 
+:warning: NOT ACTIVELY MAINTAINED :warning:
+
 To install:
 
 ```sh
