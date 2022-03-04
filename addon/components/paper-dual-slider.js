@@ -1,10 +1,9 @@
-import PaperSlider from 'ember-paper/components/paper-slider/component';
-import {htmlSafe} from "@ember/string";
+import PaperSlider from "ember-paper/components/paper-slider/component";
+import { htmlSafe } from "@ember/string";
 import clamp from "ember-paper/utils/clamp";
-import {computed} from '@ember/object';
+import { computed } from "@ember/object";
 
 export default class PaperDualSliderComponent extends PaperSlider {
-
   from = 0;
   to = 100;
   min = 0;
@@ -12,7 +11,7 @@ export default class PaperDualSliderComponent extends PaperSlider {
   onChange = undefined;
 
   calcPercent(key) {
-    const value = key
+    const value = key;
     const min = this.min ? parseFloat(this.min) : 0.0;
     const max = this.max ? parseFloat(this.max) : 10.0;
     return clamp((value - min) / (max - min), 0, 1);
@@ -22,27 +21,27 @@ export default class PaperDualSliderComponent extends PaperSlider {
     return htmlSafe(`left: ${(key || 0) * 100}%`);
   }
 
-  @computed('from', 'min', 'max')
+  @computed("from", "min", "max")
   get leftPercent() {
     return this.calcPercent(this.from);
   }
 
-  @computed('to', 'min', 'max')
+  @computed("to", "min", "max")
   get rightPercent() {
     return this.calcPercent(this.to);
   }
 
-  @computed('leftPercent')
+  @computed("leftPercent")
   get leftThumbStyle() {
     return this.calcPercentStyle(this.leftPercent);
   }
 
-  @computed('rightPercent')
+  @computed("rightPercent")
   get rightThumbStyle() {
     return this.calcPercentStyle(this.rightPercent);
   }
 
-  @computed('leftPercent', 'rightPercent')
+  @computed("leftPercent", "rightPercent")
   get activeTrackStyle() {
     const left = this.leftPercent * 100;
     const right = this.rightPercent * 100;
@@ -63,7 +62,7 @@ export default class PaperDualSliderComponent extends PaperSlider {
     let closestVal = this.minMaxValidator(this.stepValidator(exactVal));
 
     states[this.getClosestState(closestVal)] = closestVal;
-    this.get("onChange")(states);
+    this.onChange(states);
   }
 
   getClosestState(value) {
