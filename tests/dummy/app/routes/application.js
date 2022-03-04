@@ -1,10 +1,4 @@
-import Ember from 'ember';
+import Route from '@ember/routing/route';
 
-export default Ember.Route.extend({
-  setupController(controller) {
-    controller.set('state', {
-      from: 0,
-      to: 300
-    })
-  }
-});
+export default class ApplicationRoute extends Route {
+}

@@ -1,72 +1,77 @@
-import { computed } from "@ember/object";
+import PaperSlider from "ember-paper/components/paper-slider/component";
 import { htmlSafe } from "@ember/string";
-import layout from "../templates/components/paper-dual-slider";
-
-import FocusableMixin from "ember-paper/mixins/focusable-mixin";
-import ColorMixin from "ember-paper/mixins/color-mixin";
 import clamp from "ember-paper/utils/clamp";
-import Component from "ember-paper/components/paper-slider";
+import { computed } from "@ember/object";
 
-const percentStyleComputed = key =>
-  computed(key, function() {
-    const percent = this.get(key);
-    return htmlSafe(`left: ${(percent || 0) * 100}%;`);
-  });
+export default class PaperDualSliderComponent extends PaperSlider {
+  from = 0;
+  to = 100;
+  min = 0;
+  max = 100;
+  onChange = undefined;
 
-const percentComputed = key =>
-  computed(key, "min", "max", function() {
-    const value = this.get(key);
-    const min = parseFloat(this.get("min") || 0, 10);
-    const max = parseFloat(this.get("max") || 0, 10);
-
+  calcPercent(key) {
+    const value = key;
+    const min = this.min ? parseFloat(this.min) : 0.0;
+    const max = this.max ? parseFloat(this.max) : 10.0;
     return clamp((value - min) / (max - min), 0, 1);
-  });
+  }
 
-export default Component.extend(FocusableMixin, ColorMixin, {
-  layout,
-  leftPercent: percentComputed("from"),
-  rightPercent: percentComputed("to"),
+  calcPercentStyle(key) {
+    return htmlSafe(`left: ${(key || 0) * 100}%`);
+  }
 
-  leftThumbStyle: percentStyleComputed("leftPercent"),
-  rightThumbStyle: percentStyleComputed("rightPercent"),
+  @computed("from", "min", "max")
+  get leftPercent() {
+    return this.calcPercent(this.from);
+  }
 
-  activeTrackStyle: computed("leftPercent", "rightPercent", function() {
-    let left = this.get("leftPercent");
-    let right = this.get("rightPercent");
-    left *= 100;
-    right *= 100;
+  @computed("to", "min", "max")
+  get rightPercent() {
+    return this.calcPercent(this.to);
+  }
+
+  @computed("leftPercent")
+  get leftThumbStyle() {
+    return this.calcPercentStyle(this.leftPercent);
+  }
+
+  @computed("rightPercent")
+  get rightThumbStyle() {
+    return this.calcPercentStyle(this.rightPercent);
+  }
+
+  @computed("leftPercent", "rightPercent")
+  get activeTrackStyle() {
+    const left = this.leftPercent * 100;
+    const right = this.rightPercent * 100;
     return htmlSafe(`left: ${left}%; width: ${right - left}%;`);
-  }),
+  }
 
-  isMinimum: computed("leftPercent", "min", function() {
-    return this.get("leftPercent") === this.get("min");
-  }),
-
-  stepValidator(value) {
-    let step = parseFloat(this.get("step"), 10);
-    return parseFloat((Math.round(value / step) * step).toFixed(1), 10);
-  },
-
-  getClosestState(value) {
-    const fromDistance = Math.abs(this.get("from") - value);
-    const toDistance = Math.abs(this.get("to") - value);
-    if (toDistance < fromDistance) {
-      return "to";
-    } else {
-      return "from";
-    }
-  },
+  get isMinimum() {
+    return this.leftPercent === this.min;
+  }
 
   setValueFromEvent(value) {
     let states = {
-      from: this.get("from"),
-      to: this.get("to")
+      from: this.from,
+      to: this.to,
     };
 
     let exactVal = this.percentToValue(this.positionToPercent(value));
     let closestVal = this.minMaxValidator(this.stepValidator(exactVal));
 
     states[this.getClosestState(closestVal)] = closestVal;
-    this.get("onChange")(states);
+    this.onChange(states);
   }
-});
+
+  getClosestState(value) {
+    const fromDistance = Math.abs(this.from - value);
+    const toDistance = Math.abs(this.to - value);
+    if (toDistance < fromDistance) {
+      return "to";
+    } else {
+      return "from";
+    }
+  }
+}
