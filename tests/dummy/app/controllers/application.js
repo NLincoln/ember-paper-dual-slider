@@ -6,4 +6,16 @@ export default class ApplicationController extends Controller {
     from: 0,
     to: 100
   }
+
+  min = 0;
+  max = 300;
+
+  template = `
+    <PaperDualSlider
+        @from={{this.state.from}}
+        @to={{this.state.to}}
+        @min={{this.min}}
+        @max={{this.max}}
+        @onChange={{fn (mut this.state)}}
+    />`;
 }
