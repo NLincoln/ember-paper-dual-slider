@@ -1,13 +1,14 @@
 This is the paper slider:
 
 <div class="p-20">
-  {{paper-dual-slider
-  from=state.from
-  to=state.to
-  min=1
-  max=300
-  onChange=(action (mut state))
-  }}
+    <PaperDualSlider
+        @from={{this.state.from}}
+        @to={{this.state.to}}
+        @min=1
+        @max=300
+        @onChange={{fn (mut this.state)}}
+    />
+ 
 </div>
 
 You can use it like this:
