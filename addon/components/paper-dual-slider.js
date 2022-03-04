@@ -11,7 +11,7 @@ export default class PaperDualSliderComponent extends PaperSlider {
   @tracked max;
   onChange = undefined;
 
-  constructor(owner, args) {
+  constructor(owner, args = {}) {
     super(owner, args);
     const {from, to, min, max, onChange} = args;
     this.from = from;
